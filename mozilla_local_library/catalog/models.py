@@ -26,8 +26,8 @@ class Book(models.Model):
     # a genre can contain many books, books can cover many genres.
     genres = models.ManyToManyField(
         "Genre", help_text="Select a genre for this book.")
-    language = models.ForeignKey(
-        'Language', null=True, blank=False, on_delete=models.SET_NULL)
+    language = models.CharField(max_length=10, null=True,
+                                blank=False, unique=True, choices=py_languages, help_text="language list from django.conf.global_setting")
 
     def __str__(self):
         return self.title
@@ -76,8 +76,3 @@ class Author(models.Model):
 
     def __str__(self):
         return f'{self.last_name}, {self.first_name}'
-
-
-class Language(models.Model):
-    name = models.CharField(max_length=10, null=True,
-                            blank=False, choices=py_languages)
